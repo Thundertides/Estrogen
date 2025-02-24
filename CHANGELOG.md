@@ -9,3 +9,4 @@
 - Fixed issue when thigh high style list is empty (ThorTuwy)
 - Fixed Armor Trims not working on boobs (Doreena)
 - Gender change potion usable on Pokemon from the Cobblemon mod + estrogen effect
+- Removed attempt at elytra slot Compatibility as it seems like something the Elytra slot mod should implement.

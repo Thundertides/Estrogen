@@ -25,7 +25,6 @@ public class EstrogenTags {
         public static final TagKey<Item> MALUM_GROSS_FOODS = TagKey.create(BuiltInRegistries.ITEM.key(), new ResourceLocation("malum", "gross_foods"));
         public static final TagKey<Item> CHEST_ARMOR_IGNORE = TagKey.create(BuiltInRegistries.ITEM.key(), Estrogen.id("chest_armor_ignore"));
         public static final TagKey<Item> NON_RECOLORABLE = TagKey.create(BuiltInRegistries.ITEM.key(), new ResourceLocation("moonlight", "non_recolorable"));
-        public static final TagKey<Item> ELYTRA = TagKey.create(BuiltInRegistries.ITEM.key(), new ResourceLocation("elytraslot", "elytra"));
         public static final TagKey<Item> MAGNET = TagKey.create(BuiltInRegistries.ITEM.key(), new ResourceLocation("create_new_age", "magnet"));
     }
 
