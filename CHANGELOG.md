@@ -9,3 +9,5 @@
 - Fixed issue when thigh high style list is empty (ThorTuwy)
 - Fixed Armor Trims not working on boobs (Doreena)
 - Gender change potion usable on Pokemon from the Cobblemon mod + estrogen effect
+- Fixed End City Spawn for thigh highs (Thundertides)
+- Updated Translations
