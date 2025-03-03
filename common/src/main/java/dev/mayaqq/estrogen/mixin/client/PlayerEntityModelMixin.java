@@ -2,6 +2,7 @@ package dev.mayaqq.estrogen.mixin.client;
 
 import com.google.common.collect.Maps;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.simibubi.create.content.equipment.armor.BaseArmorItem;
@@ -82,19 +83,18 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
             method = "createMesh(Lnet/minecraft/client/model/geom/builders/CubeDeformation;Z)Lnet/minecraft/client/model/geom/builders/MeshDefinition;",
             at = @At("RETURN")
     )
-    private static MeshDefinition estrogen$getTextureModelData(MeshDefinition original) {
-        PartDefinition modelPartData = original.getRoot();
-        modelPartData.addOrReplaceChild("boobs", CubeListBuilder.create().addBox("boobs", -4.0F, 0F, 0F, 8, 2, 2, CubeDeformation.NONE, 18, 22), PartPose.ZERO);
-        modelPartData.addOrReplaceChild("boobs_jacket", CubeListBuilder.create().addBox("boobs_jacket", -4.0F, 0F, 0F, 8, 2, 2, new CubeDeformation(0.25f), 18, 38), PartPose.ZERO);
+    private static MeshDefinition estrogen$getTextureModelData(MeshDefinition original, @Local PartDefinition root) {
+        root.addOrReplaceChild("boobs", CubeListBuilder.create().addBox("boobs", -4.0F, 0F, 0F, 8, 2, 2, CubeDeformation.NONE, 18, 22), PartPose.ZERO);
+        root.addOrReplaceChild("boobs_jacket", CubeListBuilder.create().addBox("boobs_jacket", -4.0F, 0F, 0F, 8, 2, 2, new CubeDeformation(0.25f), 18, 38), PartPose.ZERO);
         return original;
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void estrogen$init(ModelPart root, boolean thinArms, CallbackInfo ci) {
         if (root.hasChild("boobs")) estrogen$boobs = root.getChild("boobs");
-        else Estrogen.LOGGER.warn("An error occured while trying to get the Estrogen Chest.");
+        else Estrogen.LOGGER.warn("An error occurred while trying to get the Estrogen Chest.");
         if (root.hasChild("boobs_jacket")) estrogen$boobJacket = root.getChild("boobs_jacket");
-        else Estrogen.LOGGER.warn("An error occured while trying to get the Estrogen Chest Jacket.");
+        else Estrogen.LOGGER.warn("An error occurred while trying to get the Estrogen Chest Jacket.");
         estrogen$boobArmor = new BoobArmorRenderer();
         estrogen$boobArmorTrim = new BoobArmorRenderer();
     }
