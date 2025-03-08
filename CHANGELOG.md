@@ -1,4 +1,7 @@
 # Estrogen `@VERSION@` `1.20.1` `Fabric & Forge`
+
+## THIS IS NOT AN UPDATE TO CREATE 0.6.x
+
 ### Changelog:
 - Cookie Jar QOL Actions (TheRobbie73)
 - Celeste Reverse Hyper + Super (TheRobbie73)
@@ -14,3 +17,4 @@
 - Horse urine bottle upright on belt now
 - Chest feature being rendered through armor despite having chest armor disabled
 - Updated Translations
+- Improved Thigh High Description

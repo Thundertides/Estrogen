@@ -74,7 +74,7 @@ public class EstrogenTranslations extends FabricLanguageProvider {
         tb.add("block.estrogen.dormant_dream_block.tooltip.condition1", "When powered by a Redstone Signal");
         tb.add("block.estrogen.dormant_dream_block.tooltip.behaviour1", "At _night_, it will §kturn into its active form");
         tb.add("item.estrogen.thigh_highs.tooltip", "Thigh Highs");
-        tb.add("item.estrogen.thigh_highs.tooltip.summary", "A pair of Thigh Highs that give you _Fall Damage Resistance_.");
+        tb.add("item.estrogen.thigh_highs.tooltip.summary", "A pair of Thigh Highs that give you _Fall Damage Resistance_. Non-special ones can be _dyed_ with 2 dyes on each side in a _crafting table_.");
 
         tb.add("block.estrogen.cookie_jar.tooltip", "Cookie Jar");
         tb.add("block.estrogen.cookie_jar.tooltip.summary", "A jar to _store_ all your _Cookies_!");

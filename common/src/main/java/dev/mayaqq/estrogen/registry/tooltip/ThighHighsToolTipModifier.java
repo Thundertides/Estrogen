@@ -37,7 +37,11 @@ public abstract class ThighHighsToolTipModifier implements TooltipModifier {
             String translationKey = style.toLanguageKey("tooltip.thigh_highs");
             tooltip.add(1, Component.translatable(translationKey));
         }, () -> {
-            if(item.hasCustomColor(stack)) tooltip.add(1, DYED);
+            if(item.hasCustomColor(stack)) {
+                tooltip.add(1, DYED);
+            } else {
+                tooltip.add(Component.translatable("item.estrogen.thigh_highs.desc"));
+            }
         });
     }
 }
