@@ -49,7 +49,7 @@ side = "BOTH"
 [[dependencies.estrogen]]
 modId = "create"
 mandatory = true
-versionRange = "[0.5.1.e,0.6.0)"
+versionRange = "[0.5.1,6.0.0)"
 ordering = "NONE"
 side = "BOTH"
 # curios
