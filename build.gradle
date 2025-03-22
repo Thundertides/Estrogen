@@ -40,7 +40,6 @@ subprojects {
         modApi("com.teamresourceful.resourcefullib:resourcefullib-${project.name}-${rootProject.minecraft_version}:${rootProject.resourcefullib_version}")
         modApi("earth.terrarium.botarium:botarium-${project.name}-${rootProject.minecraft_version}:${rootProject.botarium_version}")
         modApi include("uwu.serenity.critter:critter-${project.name}:${rootProject.critter_version}")
-        modApi include("maven.modrinth:sodium:mc${rootProject.minecraft_version}-${rootProject.sodium_version}")
 
         modImplementation include("maven.modrinth:jukeboxfix:${rootProject.jukeboxfix_version}-${rootProject.minecraft_version}")
  
