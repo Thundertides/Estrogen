@@ -23,9 +23,9 @@ Ko-fi: https://ko-fi.com/mayaqq
 '''
 
 [modproperties.estrogen]
-'resourcefullib:resourcepack' = [
-    { name="estrogenprogrammerart", description="Estrogen Programmer Art" }
-]
+#'resourcefullib:resourcepack' = [
+#    { name="estrogenprogrammerart", description="Estrogen Programmer Art" }
+#]
 catalogueItemIcon = "estrogen:estrogen_pill"
 catalogueBackground = "estrogen_background.png"
 
@@ -49,7 +49,7 @@ side = "BOTH"
 [[dependencies.estrogen]]
 modId = "create"
 mandatory = true
-versionRange = "[0.5.1.e,)"
+versionRange = "[0.5.1,6.0.0)"
 ordering = "NONE"
 side = "BOTH"
 # curios

@@ -47,11 +47,6 @@ public class ThighHighsItem extends Item implements Bauble {
         this.secondaryColorDefault = secondaryColor;
     }
 
-    @Override
-    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag tooltipFlag) {
-        tooltip.add(Component.translatable("item.estrogen.thigh_highs.desc"));
-    }
-
     public static int getItemColor(ItemStack stack, int tintIndex) {
         ThighHighsItem thighHighsItem = (ThighHighsItem) stack.getItem();
         if(thighHighsItem.getStyle(stack).isPresent()) return -1;
