@@ -87,9 +87,7 @@ dependencies {
         modRuntimeOnly("maven.modrinth:3dskinlayers:${rootProject.skinlayers_version}")
     }
     
-    //Sodium
-    modCompileOnly include("maven.modrinth:sodium:mc${rootProject.minecraft_version}-${rootProject.sodium_version}")
-   
+
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
