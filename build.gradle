@@ -39,7 +39,7 @@ subprojects {
         modApi include("uwu.serenity.critter:critter-${project.name}:${rootProject.critter_version}")
 
         modImplementation include("maven.modrinth:jukeboxfix:${rootProject.jukeboxfix_version}-${rootProject.minecraft_version}")
-
+ 
         // JEI
         modCompileOnly("mezz.jei:jei-${rootProject.minecraft_version}-common-api:${rootProject.jei_version}")
 
