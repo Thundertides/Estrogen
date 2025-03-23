@@ -2,6 +2,7 @@ package dev.mayaqq.estrogen.mixin;
 
 import dev.mayaqq.estrogen.config.ChestConfig;
 import dev.mayaqq.estrogen.config.PlayerEntityExtension;
+import dev.mayaqq.estrogen.features.dash.CommonDash;
 import dev.mayaqq.estrogen.registry.EstrogenAttributes;
 import dev.mayaqq.estrogen.registry.EstrogenDamageSources;
 import dev.mayaqq.estrogen.registry.EstrogenEffects;
@@ -18,6 +19,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
@@ -52,6 +54,11 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
                 .add(EstrogenAttributes.BOOB_INITIAL_SIZE.get())
                 .add(EstrogenAttributes.BOOB_GROWING_START_TIME.get())
                 .add(EstrogenAttributes.FALL_DAMAGE_RESISTANCE.get());
+    }
+
+    @Inject(method = "jumpFromGround()V", at = @At("HEAD"), cancellable = true)
+    private void disableJump(CallbackInfo ci) {
+        if (CommonDash.isPlayerDashing(getUUID())) ci.cancel();
     }
 
     // Modifies the damage source of fall damage if the player has the estrogen effect.

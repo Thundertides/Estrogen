@@ -12,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.phys.AABB;
@@ -40,12 +41,6 @@ public class ClientDash {
     private static double dashXRot = 0.0;
     private static double dashDeltaModifier = 0.0;
 
-    private static boolean willHyper = false;
-    private static boolean willSuper = false;
-    private static boolean willBounce = false;
-    private static Direction bounceDirection = null;
-    private static boolean doReverse = false;
-
     private static BlockPos lastPos = null;
 
     public static void tick() {
@@ -65,50 +60,6 @@ public class ClientDash {
         groundCooldown--;
         if (groundCooldown < 0) groundCooldown = 0;
 
-        // Hyper
-        if (willHyper) {
-            willHyper = false;
-            Vec3 hyperMotion = new Vec3(
-                    player.getLookAngle().x * HYPER_H_SPEED,
-                    HYPER_V_SPEED,
-                    player.getLookAngle().z * HYPER_H_SPEED
-            );
-            if (doReverse) {
-                doReverse = false;
-                hyperMotion = hyperMotion.multiply(-1, 1, -1);
-            }
-            player.setDeltaMovement(hyperMotion);
-            dashCooldown = 0;
-            extraParticleTicks = 2;
-        }
-        // Super
-        if (willSuper) {
-            willSuper = false;
-            Vec3 superMotion = new Vec3(
-                    player.getLookAngle().x * SUPER_H_SPEED,
-                    SUPER_V_SPEED,
-                    player.getLookAngle().z * SUPER_H_SPEED
-            );
-            if (doReverse) {
-                doReverse = false;
-                superMotion = superMotion.multiply(-1, 1, -1);
-            }
-            player.setDeltaMovement(superMotion);
-            dashCooldown = 0;
-            extraParticleTicks = 1;
-        }
-        // Wall Bounce
-        if (willBounce) {
-            willBounce = false;
-            if (bounceDirection != null) {
-                player.setDeltaMovement(bounceDirection.getStepX() * BOUNCE_H_SPEED, BOUNCE_V_SPEED, bounceDirection.getStepZ() * BOUNCE_H_SPEED);
-            } else {
-                player.setDeltaMovement(0, BOUNCE_V_SPEED, 0);
-            }
-            dashCooldown = 0;
-            extraParticleTicks = 1;
-        }
-
         // During Dash
         Dash:
         if (dashCooldown > 0) {
@@ -127,25 +78,24 @@ public class ClientDash {
             player.setDeltaMovement(dashDirection.scale(DASH_SPEED).scale(dashDeltaModifier));
 
             // Hyper and Super Detection
-            Detect:
             if (Minecraft.getInstance().options.keyJump.isDown()) {
-                if (Minecraft.getInstance().options.keyDown.isDown()) {
-                    doReverse = true;
+                boolean doReverse = (Minecraft.getInstance().options.keyDown.isDown());
+                if (player.onGround() && dashXRot > 15 && dashXRot < 60) {
+                    hyperJump(player, doReverse ? player.getLookAngle().reverse() : player.getLookAngle());
                 }
-                if (player.onGround()) {
-                    if (dashXRot > 15 && dashXRot < 60) willHyper = true;
-                    else if (dashXRot > 0 && dashXRot < 15) willSuper = true;
-                    break Detect;
+                else if (player.onGround() && dashXRot > 0 && dashXRot < 15) {
+                    superJump(player, doReverse ? player.getLookAngle().reverse() : player.getLookAngle());
                 }
-                if (dashXRot < -60) {
+                else if (dashXRot < -60) {
                     for (Direction direction : Direction.Plane.HORIZONTAL) {
                         // change required distance from wall here
                         Vec3 vector = Vec3.atLowerCornerOf(direction.getNormal()).scale(0.25);
                         AABB aabb = player.getBoundingBox().expandTowards(vector);
                         if (player.level().noCollision(player, aabb)) continue;
-                        bounceDirection = direction.getOpposite();
-                        willBounce = true;
-                        break Detect;
+
+                        Vec3 jumpDirection = Vec3.atLowerCornerOf(direction.getOpposite().getNormal());
+                        wallJump(player, jumpDirection);
+                        break;
                     }
                 }
             }
@@ -165,24 +115,58 @@ public class ClientDash {
         }
 
         // Here is when the dash happens
-        if (EstrogenKeybinds.DASH_KEY.consumeClick() && !isOnCooldown()) {
-            DreamBlock.lookAngle = null;
-            CommonDash.setDashing(player.getUUID());
+        if (EstrogenKeybinds.DASH_KEY.consumeClick() && !isOnCooldown()) dash(player, player.getLookAngle());
+    }
 
-            // Set counter to duration of dash
-            dashCooldown = 5;
-            // Dash level of current dash (number of dashes at the beginning)
-            dashLevel = dashes;
-            // Decrement the dash counter
-            dashes--;
+    private static void dash(LocalPlayer player, Vec3 dashDirection) {
+        DreamBlock.lookAngle = null;
+        CommonDash.setDashing(player.getUUID());
 
+        // Set counter to duration of dash
+        dashCooldown = 5;
+        // Dash level of current dash (number of dashes at the beginning)
+        dashLevel = dashes;
+        // Decrement the dash counter
+        if (dashes > 0) dashes--;
 
-            EstrogenNetworkManager.CHANNEL.sendToServer(new DashPacket(true, dashLevel));
+        EstrogenNetworkManager.CHANNEL.sendToServer(new DashPacket(true, dashLevel));
 
-            dashDirection = player.getLookAngle();
-            dashXRot = player.getXRot();
-            dashDeltaModifier = EstrogenConfig.server().dashDeltaModifier.get();
-        }
+        // math from Entity.lookAt()
+        dashXRot = Mth.wrapDegrees((float)(-(Mth.atan2(dashDirection.y, dashDirection.horizontalDistance()) * (double)(180F / (float)Math.PI))));
+        ClientDash.dashDirection = dashDirection;
+        dashDeltaModifier = EstrogenConfig.server().dashDeltaModifier.get();
+    }
+
+    private static void hyperJump(LocalPlayer player, Vec3 jumpDirection) {
+        Vec3 hyperMotion = new Vec3(
+                jumpDirection.x * HYPER_H_SPEED,
+                HYPER_V_SPEED,
+                jumpDirection.z * HYPER_H_SPEED
+        );
+        player.setDeltaMovement(hyperMotion);
+        dashCooldown = 0;
+        extraParticleTicks = 2;
+    }
+
+    private static void superJump(LocalPlayer player, Vec3 jumpDirection) {
+        Vec3 superMotion = new Vec3(
+                jumpDirection.x * SUPER_H_SPEED,
+                SUPER_V_SPEED,
+                jumpDirection.z * SUPER_H_SPEED
+        );
+        player.setDeltaMovement(superMotion);
+        dashCooldown = 0;
+        extraParticleTicks = 1;
+    }
+
+    private static void wallJump(LocalPlayer player, Vec3 jumpDirection) {
+        player.setDeltaMovement(
+                jumpDirection.x * BOUNCE_H_SPEED,
+                BOUNCE_V_SPEED,
+                jumpDirection.z * BOUNCE_H_SPEED
+        );
+        dashCooldown = 0;
+        extraParticleTicks = 1;
     }
 
     public static void reset() {
