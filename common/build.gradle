@@ -56,6 +56,11 @@ publishing {
     repositories {}
 }
 
+//Disables remapJar to stop errors.
+tasks.named("remapJar") {
+    enabled = false
+}
+
 sourceSets {
     main {
         // Platform specific generated files

@@ -1,6 +1,6 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.9.428" apply false
     id "me.modmuss50.mod-publish-plugin" version "0.4.5"
     id "maven-publish"
 }
@@ -39,7 +39,7 @@ subprojects {
         modApi include("uwu.serenity.critter:critter-${project.name}:${rootProject.critter_version}")
 
         modImplementation include("maven.modrinth:jukeboxfix:${rootProject.jukeboxfix_version}-${rootProject.minecraft_version}")
-
+ 
         // JEI
         modCompileOnly("mezz.jei:jei-${rootProject.minecraft_version}-common-api:${rootProject.jei_version}")
 
