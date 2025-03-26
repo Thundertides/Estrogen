@@ -21,6 +21,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -33,7 +34,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-public class ThighHighsItem extends Item implements Bauble {
+public class ThighHighsItem extends ArmorItem implements Bauble {
     private final int primaryColorDefault;
     private final int secondaryColorDefault;
     private List<ResourceLocation> styles;
@@ -41,7 +42,7 @@ public class ThighHighsItem extends Item implements Bauble {
     public static final String TAG_SECONDARY = "secondaryColor";
     public static final String TAG_STYLE = "specialStyle";
 
-    public ThighHighsItem(Properties properties, int primaryColor, int secondaryColor) {
+    public ThighHighsItem(ArmorMaterial.LEATHER, EquipmentSlot.FEET, Properties properties, int primaryColor, int secondaryColor) {
         super(properties);
         this.primaryColorDefault = primaryColor;
         this.secondaryColorDefault = secondaryColor;
