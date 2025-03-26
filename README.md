@@ -45,7 +45,8 @@ This mod also features a [complete soundtrack](https://erora.bandcamp.com/album/
 To hear it, make sure you have your music sound category turned up!
 
 ### `Amazing Video Showcase`
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/kdn3qYwzMDQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+[![Showcase](https://img.youtube.com/vi/kdn3qYwzMDQ/0.jpg)](https://www.youtube-nocookie.com/embed/kdn3qYwzMDQ)
 
 ### `Additional Features`
 
@@ -63,7 +64,7 @@ This mod adds a lot of other features related to Estrogen and its production. Th
 - A new type of [(musical?)](https://erora.bandcamp.com/track/g03c) cookie 😋 🍪<br>
   <img src="https://i.imgur.com/lrPWwPT.png" alt="Estrogen Chip Cookie" width="256"/>
 - And many more (including some easter eggs)! 🥚<br>
-  <img src="https://mayaqq.dev/media/colonthree_big.png" alt=":3" width="256"/>
+  <img src="https://github.com/user-attachments/assets/00a3d78d-75ff-4abe-9a7b-6cfb69a4462c" alt=":3" width="256"/>
 
 ### `Extra information`
 
