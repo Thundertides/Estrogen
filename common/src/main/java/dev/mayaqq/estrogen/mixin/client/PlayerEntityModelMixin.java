@@ -11,6 +11,8 @@ import dev.mayaqq.estrogen.Estrogen;
 import dev.mayaqq.estrogen.client.entity.player.features.boobs.BoobArmorRenderer;
 import dev.mayaqq.estrogen.client.entity.player.features.boobs.PlayerEntityModelExtension;
 import dev.mayaqq.estrogen.client.entity.player.features.boobs.TextureData;
+import dev.mayaqq.estrogen.config.EstrogenConfig;
+import dev.mayaqq.estrogen.config.PlayerEntityExtension;
 import dev.mayaqq.estrogen.integrations.figura.FiguraCompat;
 import dev.mayaqq.estrogen.registry.EstrogenEffects;
 import dev.mayaqq.estrogen.registry.EstrogenTags;
@@ -104,7 +106,7 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
         if (ModInfoUtils.isModLoaded("figura") && !FiguraCompat.renderBoobs(player)) return;
         if (this.estrogen$boobs == null) return;
         ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
-        if (!chest.isEmpty() && !chest.is(EstrogenTags.Items.CHEST_ARMOR_IGNORE)) {
+        if (!chest.isEmpty() && !chest.is(EstrogenTags.Items.CHEST_ARMOR_IGNORE) && EstrogenConfig.client().chestArmorRendering.get() && ((PlayerEntityExtension) player).estrogen$getChestConfig().armorEnabled()) {
             if (estrogen$getArmorTexture(player, false).isEmpty()) return;
         }
 
@@ -133,13 +135,16 @@ public class PlayerEntityModelMixin<T extends LivingEntity> extends HumanoidMode
 
     @Override
     public void estrogen$renderBoobArmor(PoseStack matrices, MultiBufferSource vertexConsumers, int light, boolean glint, float red, float green, float blue, boolean overlay, AbstractClientPlayer player, float size, float yOffset) {
+        // Figura Check
         if (ModInfoUtils.isModLoaded("figura") && !FiguraCompat.renderBoobArmor(player)) return;
+        // Null Check
         if (this.estrogen$boobArmor == null) return;
-
+        // Armor Data Check
         Optional<TextureData> opt = this.estrogen$getArmorTexture(player, overlay);
         if (opt.isEmpty()) {
             return;
         }
+        // Rendering
         TextureData textureData = opt.get();
         VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(vertexConsumers, RenderType.armorCutoutNoCull(textureData.location()), false, glint);
         this.estrogen$boobArmor.copyTransform(this.body);

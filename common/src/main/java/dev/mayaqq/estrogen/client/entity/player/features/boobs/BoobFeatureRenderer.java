@@ -47,7 +47,7 @@ public class BoobFeatureRenderer extends RenderLayer<AbstractClientPlayer, Playe
         if (Boob.shouldShow(entity) && EstrogenConfig.client().chestFeatureRendering.get() && chestConfig != null && chestConfig.enabled() && entity.isSkinLoaded() && !entity.isInvisible()) {
             if (entity.getItemBySlot(EquipmentSlot.CHEST).is(EstrogenTags.Items.CHEST_FEATURE_DISABLED)) return;
 
-            if (!entity.getItemBySlot(EquipmentSlot.CHEST).isEmpty() && !entity.getItemBySlot(EquipmentSlot.CHEST).is(EstrogenTags.Items.CHEST_ARMOR_IGNORE) && (!EstrogenConfig.client().chestArmorRendering.get() || !chestConfig.armorEnabled())) return;
+            if (!entity.getItemBySlot(EquipmentSlot.CHEST).isEmpty() && !entity.getItemBySlot(EquipmentSlot.CHEST).is(EstrogenTags.Items.CHEST_ARMOR_IGNORE) && EstrogenConfig.client().chestArmorRendering.get() && chestConfig.armorEnabled()) return;
 
             VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityCutout(entity.getSkinTextureLocation()));
             int m = LivingEntityRenderer.getOverlayCoords(entity, 0.0F);
